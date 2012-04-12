@@ -1,18 +1,12 @@
-/* -HEADER----------------------------------------------------------------------
+/* ---------------------------------------------------------------------------
 JS/CC: A LALR(1) Parser Generator written in JavaScript
+
 Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
 http://www.jmksf.com ++ jscc<-AT->jmksf.com
 
-File:	global.js
-Author:	Jan Max Meyer
-Usage:	General variables, constants and defines
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
+Modified by Marcel Klehr
+Copyright (C) 2012 by Marcel Klehr <mklehr@gmx.net>
 ----------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------
-   April 10, 2012: Altered by Marcel Klehr to enable it to run on node.js
-   -------------------------------------------------------------------------- */
    
 process.stdin.resume()
 var fs = require('fs');

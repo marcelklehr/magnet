@@ -1,8 +1,5 @@
 /*
-	Default driver template for JS/CC generated parsers for Node.js/V8
-	
-	WARNING: Do not use for parsers that should run as browser-based JavaScript!
-			 Use driver_web.js_ instead!
+	Driver template for JS/CC generated parsers for Node.js
 	
 	Features:
 	- Parser trace messages
@@ -11,7 +8,7 @@
 	- Pseudo-graphical parse tree generation
 	
 	Written 2007 by Jan Max Meyer, J.M.K S.F. Software Technologies
-        Modified 2012 from driver.js_ to support Node.js
+        Modified 2012 from driver_rhino.js_ to support Node.js
         by Marcel Klehr <mklehr@gmx.net>
 	
 	This is in the public domain.
