@@ -1,0 +1,7 @@
+{ "name" : "Magnet",
+  "description": "Interpreted scripting language",
+  "version": "@VERSION",
+  "main" : "./magnet.js",
+  "author": "Marcel Klehr <mklehr@gmx.net>",
+  "engines": { "node": ">= 0.6.0" }
+}
