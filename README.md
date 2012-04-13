@@ -13,7 +13,8 @@ Submit any suggestions, questions or bugs to the [Issue Tracker](http://github.c
 ## Install
 1. Well, download it.
 2. Run `make`
-3. Run `node cli sample/test.mg`
+
+That's it. No try runnig `node cli sample/test.mg`.
 
 ## License
 Copyright (c) 2012 by Marcel Klehr
