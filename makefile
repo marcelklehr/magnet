@@ -6,6 +6,8 @@ BUILD_DIR = build
 TEMP_DIR = temp
 
 FERRITE_FILES = ${SRC_DIR}/ferrite/_header.template.js \
+		${SRC_DIR}/ferrite/primalTypes.js \
+		${SRC_DIR}/ferrite/typeFactory.js \
 		${SRC_DIR}/ferrite/node.js \
 		${SRC_DIR}/ferrite/scope.js \
 		${SRC_DIR}/ferrite/trace.js \

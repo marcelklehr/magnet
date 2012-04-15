@@ -1,4 +1,4 @@
-print =  { val:
+print =  { val :
   cry val;
 };
 
