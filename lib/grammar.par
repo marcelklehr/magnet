@@ -12,13 +12,18 @@
 	'return'
 	'if'
 	'else'
+  '\.'
+  '\('
+	'\)'
 	'{'
 	'}'
 	';'
-	/~'(\r|\n|\r\n)'			LineBreak~/
+	'(\r|\n)+'			LineBreak
 	','
-	'\.'
 	':'
+  '!'
+  '&&'
+  '\|\|'
 	'='
 	'=='
 	'!='
@@ -30,13 +35,12 @@
 	'\-'
 	'/'
 	'\*'
-	'\('
-	'\)'
 	'#'
-	'[A-Za-z_][A-Za-z0-9_]*'	Identifier
-	'\'([^\']|\'\')*\''		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
-	'[0-9]+'			Integer		[* %match = parseInt(%match); *]
-	'[0-9]+\.[0-9]+'		Float		[* %match = parseFloat(%match); *]
+	'[A-Za-z_][A-Za-z0-9_]*'	             Identifier
+	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
+	'[0-9]+'                                Integer		[* %match = parseInt(%match); *]
+	'[0-9]+\.[0-9]+'                         Float		[* %match = parseFloat(%match); *]
+	'true|false'                            Boolean   [* %match = %match == 'true'; *]
 	;
 
 ##
@@ -45,7 +49,7 @@
 
 /~ May be empty! ~/
 script:     script action 		[* scope.execute( %2 ); *]
-            | action		[* scope.execute( %1 ); *]
+            |
             ;
 
 action:     cry expression		[* %% = new Node( NODE_OP, OP_CRY, [%2] ); *]
@@ -56,12 +60,16 @@ action:     cry expression		[* %% = new Node( NODE_OP, OP_CRY, [%2] ); *]
             | control-struct
             | expression
             | ';'			[* %% = new Node( NODE_OP, OP_NONE); *]
+            | LineBreak			[* %% = new Node( NODE_OP, OP_NONE); *]
             ;
 
 assignment: variable '=' expression	[* %% = new Node( NODE_OP, OP_ASSIGN, [%1, %3] ); *]
             ;
 
-expression: expression '==' AddSubExp	[* %% = new Node( NODE_OP, OP_EQU, [%1, %3] ); *]
+expression: expression '&&' expression [* %% = new Node( NODE_OP, OP_AND, [%1, %3] ); *]
+            | expression '||' expression [* %% = new Node( NODE_OP, OP_OR, [%1, %3] ); *]
+            | '!' expression            [* %% = new Node( NODE_OP, OP_OR, [%2] ); *]
+            | expression '==' AddSubExp	[* %% = new Node( NODE_OP, OP_EQU, [%1, %3] ); *]
             | expression '<' AddSubExp	[* %% = new Node( NODE_OP, OP_LOT, [%1, %3] ); *]
             | expression '>' AddSubExp	[* %% = new Node( NODE_OP, OP_GRT, [%1, %3] ); *]
             | expression '<=' AddSubExp	[* %% = new Node( NODE_OP, OP_LOE, [%1, %3] ); *]
@@ -87,17 +95,22 @@ NegExp:     '-' value			[* %% = new Node( NODE_OP, OP_NEG, [%2] ); *]
 
 value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | Float				[* %% = new Node( NODE_FLOAT, %1 ); *]
+            | Boolean		  [* %% = new Node( NODE_BOOL, %1 ); *]
             | String			[* %% = new Node( NODE_STR, %1 ); *]
-            | variable			[* %% = new Node( NODE_VAR, %1 ); *]
+            | variable    [* %% = new Node( NODE_VAR, %1); *]
             | function-def
             | function-call
             | '(' expression ')'		[* %% = new Node(NODE_EXPR, %2); *]
             ;
 
 
-variable:   Identifier                [* %% = new Node( NODE_IDENT, %1 ); *]
-            | Identifier '.' variable [* %% = new Node( NODE_IDENT, %1, [%3] ); *]
-             ;
+variable:   value '.' ident      [* %% = new Node( NODE_PROP, %1, [%3] ); *]
+            | ident              [* %% = new Node( NODE_PROP, null, [%1] ); *]
+            ;
+
+ident:      Identifier               [* %% = new Node( NODE_IDENT, %1 ); *]
+            | '#' '(' expression ')' [* %% = new Node( NODE_IDENT, new Node(NODE_EXPR, %2)); *]
+            ;
 
 function-call: expression "(" arguments ")"	[* %% = new Node( NODE_CALL, %1, [%3] ); *]
                | expression "(" ")"		[* %% = new Node( NODE_CALL, %1 ); *]
@@ -111,7 +124,7 @@ function-def: "{" parameters ":" code "}"	[* %% = new Node( NODE_FUNC, %4, [%2] 
               ;
 		 
 parameters: Identifier parameters		[* %% = new Node( NODE_PARAM, %1, [%2] ); *]
-            | Identifier			[* %% = new Node( NODE_PARAM, %1 ); *]
+            | Identifier			      [* %% = new Node( NODE_PARAM, %1 ); *]
             ;
 
 code:       action code 			[* %% = new Node( NODE_ACT, %1, [%2] ); *]
@@ -121,8 +134,8 @@ code:       action code 			[* %% = new Node( NODE_ACT, %1, [%2] ); *]
 control-struct: if-else-statement
                 ;
 
-if-else-statement: if expression function-def else function-def         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3, %5]) *]
-                   | if expression function-def else if-else-statement  [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3, %5]) *]
+if-else-statement: if expression function-def else if-else-statement  [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3, %5]) *]
+                   | if expression function-def else function-def         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3, %5]) *]
                    | if expression function-def                         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3]) *]
                    ;
           
