@@ -1,15 +1,23 @@
 VER = $(shell cat version.txt)
 DATE = $(shell git log -1 --pretty=format:%ad)
-CHLOG = $(git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s")
+CHLOG = $(shell git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s")
 
 SRC_DIR = lib
 BUILD_DIR = build
 TEMP_DIR = temp
 
+FERRITE_TYPES = ${SRC_DIR}/ferrite/type_nil.js \
+		${SRC_DIR}/ferrite/type_object.js \
+		${SRC_DIR}/ferrite/type_boolean.js \
+		${SRC_DIR}/ferrite/type_string.js \
+		${SRC_DIR}/ferrite/type_integer.js \
+		${SRC_DIR}/ferrite/type_float.js \
+		${SRC_DIR}/ferrite/type_function.js
+
 FERRITE_FILES = ${SRC_DIR}/ferrite/_header.template.js \
+		${SRC_DIR}/ferrite/utility.js \
+		${FERRITE_TYPES} \
 		${SRC_DIR}/ferrite/environment.js \
-    ${SRC_DIR}/ferrite/typeFactory.js \
-		${SRC_DIR}/ferrite/primalTypes.js \
 		${SRC_DIR}/ferrite/node.js \
 		${SRC_DIR}/ferrite/scope.js \
 		${SRC_DIR}/ferrite/trace.js \
@@ -59,7 +67,12 @@ package.json : version.txt ${BUILD_DIR}/package.template.json
 	@@sed "s/@VERSION/${VER}/" ${BUILD_DIR}/package.template.json > package.json
 
 changelog : 
-  #echo ${CHLOG} > CHANGELOG.TXT
+	@@echo "${CHLOG}" > CHANGELOG.TXT
+  
+debug : 
+	@@echo "Compiling parser from grammar in debug mode."
+	@@mkdir -p ${TEMP_DIR}
+	@@node ${BUILD_DIR}/jscc.js -v -w -t ${BUILD_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
 
 tidy :
 	@@echo "Cleaning temp directory."
