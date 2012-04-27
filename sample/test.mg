@@ -40,11 +40,9 @@ print( func() );
 a = b = 'Assignment chaining works';
 print(a);
 
-// COMMENTS work extraordinary good! even this: {}!"§$%&/()=?²³{[]}\
-
 i = 42;
 if i == 42 {
-  cry 'IF clauses work.'
+  cry 'IF clauses work.';
 };
 
 if i != 42 {
@@ -66,7 +64,8 @@ if true {
   cry 'Native booleans ala true work.';
 };
 
-while({i < 10;}, {
+i = 0;
+while({i < 10}, {
   i = i + 1;
 });
 
