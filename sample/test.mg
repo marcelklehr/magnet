@@ -76,3 +76,9 @@ cry '--Advanced Features--'
 5.each({cry '5 times'})
 
 'Hello'.each({char: cry char})
+
+fork = 'Hello'.fork()
+fork.read = {"G'Day"}
+cry fork
+
+debug
