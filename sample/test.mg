@@ -78,7 +78,11 @@ cry '--Advanced Features--'
 'Hello'.each({char: cry char})
 
 fork = 'Hello'.fork()
-fork.read = {"G'Day"}
+fork.#("+") = {"G'Day"}
 cry fork
+cry fork+" World"
+
+
+crazy = {'hello'}.copy()
 
 debug
