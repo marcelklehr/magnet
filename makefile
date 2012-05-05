@@ -17,8 +17,8 @@ FERRITE_TYPES = ${SRC_DIR}/ferrite/type_nil.js \
 FERRITE_FILES = ${SRC_DIR}/ferrite/_header.template.js \
 		${SRC_DIR}/ferrite/utility.js \
 		${FERRITE_TYPES} \
+    ${SRC_DIR}/ferrite/node.js \
 		${SRC_DIR}/ferrite/environment.js \
-		${SRC_DIR}/ferrite/node.js \
 		${SRC_DIR}/ferrite/scope.js \
 		${SRC_DIR}/ferrite/trace.js \
 		${SRC_DIR}/ferrite/library.js \

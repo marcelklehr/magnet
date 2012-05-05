@@ -51,15 +51,18 @@ if i != 42 {
 
 
 
+
+
+if true {
+  cry 'Native booleans ala true work.'
+}
+
+
 while = { expr body :
   if expr() {
     body()
     while(expr, body)
   }
-}
-
-if true {
-  cry 'Native booleans ala true work.'
 }
 
 i = 0
@@ -84,5 +87,5 @@ cry fork+" World"
 
 
 crazy = {'hello'}.copy()
-
+crazyccccc = crazy.call.call.call.call.call
 debug
