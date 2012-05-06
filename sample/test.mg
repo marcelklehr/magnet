@@ -30,7 +30,14 @@ print( func() );
 
 
 
-{ return { {cry 'Closures and Call chaining works.'} } }()()()
+{ 
+  text = 'Closures and Call chaining works.'
+  return { 
+    return {
+      cry text
+    }
+  } 
+}()()()
 
 
 
