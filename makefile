@@ -2,6 +2,7 @@ VER = $(shell cat version.txt)
 DATE = $(shell git log -1 --pretty=format:%ad)
 
 SRC_DIR = lib
+JSCC_DIR = jscc
 BUILD_DIR = build
 TEMP_DIR = temp
 
@@ -30,8 +31,8 @@ STDLIB_FILES = ${SRC_DIR}/stdlib/_header.template.js \
 CLI_FILES = ${SRC_DIR}/cli/_header.template.js \
 		${SRC_DIR}/cli/cli.js
 
-COMPILER_FILES = ${BUILD_DIR}/jscc.js \
-		${BUILD_DIR}/jsccdriver_node.js_
+COMPILER_FILES = ${JSCC_DIR}/jscc.js \
+		${JSCC_DIR}/jsccdriver_node.js_
 
 all : ferrite.js stdlib.js cli.js package.json CHANGELOG.TXT
 
@@ -59,7 +60,7 @@ cli.js : ${CLI_FILES}
 ${TEMP_DIR}/parser.js : ${SRC_DIR}/grammar.par ${COMPILER_FILES}
 	@@echo "Compiling parser from grammar."
 	@@mkdir -p ${TEMP_DIR}
-	@@node ${BUILD_DIR}/jscc.js -t ${BUILD_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
+	@@node ${JSCC_DIR}/jscc.js -t ${JSCC_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
 
 package.json : version.txt ${BUILD_DIR}/package.template.json
 	@@echo "Creating package file."
@@ -67,7 +68,7 @@ package.json : version.txt ${BUILD_DIR}/package.template.json
 
 CHANGELOG.TXT : 
 	@@echo "Creating changelog."
-	git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s" > CHANGELOG.TXT
+	@@git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s" > CHANGELOG.TXT
   
 debug : 
 	@@echo "Compiling parser from grammar in debug mode."

@@ -24,4 +24,4 @@ This software uses a slightly modified version of:
 
 JS/CC - A LALR(1) Parser Generator written in JavaScript
 Copyright (c) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer <jscc<-AT->jmksf.com>, http://www.jmksf.com
-JS/CC is licensed under the terms of the 3-clause BSD License (see `build/jscc.js` for more information).
+JS/CC is licensed under the terms of the 3-clause BSD License (see `jscc/jscc.js` for more information).
