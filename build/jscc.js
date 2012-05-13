@@ -1,11 +1,30 @@
 /* ---------------------------------------------------------------------------
 JS/CC: A LALR(1) Parser Generator written in JavaScript
 
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
+  Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
+  http://www.jmksf.com ++ jscc<-AT->jmksf.com
 
-Modified by Marcel Klehr
-Copyright (C) 2012 by Marcel Klehr <mklehr@gmx.net>
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the J.M.K S.F. Software Technologies nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL J.M.K S.F. Software Technologies or Jan Max Meyer
+  BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ----------------------------------------------------------------------------- */
    
 process.stdin.resume()
@@ -175,20 +194,6 @@ var exec_mode;
 var assoc_level;
 
 var	regex_weight;
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	debug.js
-Author:	Jan Max Meyer
-Usage:	Debug-Functions / Detail progress output
-		These functions had been designed to both output plain text as well
-		as HTML-formatted output.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
 
 function print_symbols( mode )
 {
@@ -447,46 +452,6 @@ function print_item_set( mode, label, item_set )
 		_print( "</table>" );
 }
 
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	first.js
-Author:	Jan Max Meyer
-Usage:	FIRST-set calculation
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		first()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Computes the FIRST-sets for all non-terminals of the
-					grammar. Must be called right after the parse and before
-					the table generation methods are performed.
-					
-	Parameters:		void
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
-	25.08.2008	Jan Max Meyer	Here was a bad bug that sometimes came up when
-								nonterminals are nullable. An example is the
-								grammar
-								
-								"A" "B";
-								##
-								x: y "B";
-								y: y "A" | ;
-								
-								Now it works... embarrassing bug... ;(
------------------------------------------------------------------------------ */
 function first()
 {
 	var	cnt			= 0,
@@ -528,28 +493,6 @@ function first()
 	while( cnt != old_cnt );
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		rhs_first()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Returns all terminals that are possible from a given position
-					of a production's right-hand side.
-					
-	Parameters:		item			Item to which the lookaheads are added to.
-					p				The production where the computation should
-									be done on.
-					begin			The offset of the symbol where rhs_first()
-									begins its calculation from.
-	
-	Returns:		true			If the whole rest of the right-hand side can
-									be null (epsilon),
-					false			else.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function rhs_first( item, p, begin )
 {
 	var f, i, nullable = true;
@@ -566,41 +509,7 @@ function rhs_first( item, p, begin )
 	
 	return nullable;
 }
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
 
-File:	printtab.js
-Author:	Jan Max Meyer
-Usage:	Functions for printing the parse tables and related functions.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		print_parse_tables()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Prints the parse tables in a desired format.
-					
-	Parameters:		mode					The output mode. This can be either
-											MODE_GEN_JS to create JavaScript/
-											JScript code as output or MODE_GEN_HTML
-											to create HTML-tables as output
-											(the HTML-tables are formatted to
-											look nice with the JS/CC Web
-											Environment).
-	
-	Returns:		code					The code to be printed to a file or
-											web-site.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function print_parse_tables( mode )
 {
 	var code	= new String();
@@ -874,23 +783,6 @@ function print_dfa_table( dfa_states )
 	return code;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		print_symbol_labels()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Prints all symbol labels into an array; This is used for
-					error reporting purposes only in the resulting parser.
-					
-	Parameters:		void
-	
-	Returns:		code					The code to be inserted into the
-											static parser driver framework.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function print_symbol_labels()
 {
 	var code = new String();
@@ -919,26 +811,6 @@ function print_symbol_labels()
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		print_term_actions()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Prints the terminal symbol actions to be associated with a
-					terminal definition into a switch-case-construct.
-					
-	Parameters:		void
-	
-	Returns:		code					The code to be inserted into the
-											static parser driver framework.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
-	22.08.2008	Jan Max Meyer	Bugfix: %offset returned the offset BEHIND the
-								terminal, now it's the correct value; %source,
-								which was documented in the manual since v0.24
-								was not implemented.
------------------------------------------------------------------------------ */
 function print_term_actions()
 {
 	var code = new String();
@@ -992,24 +864,7 @@ function print_term_actions()
 	return ( matches == 0 ) ? (new String()) : code;
 }
 
-	
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		print_actions()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Generates a switch-case-construction that contains all
-					the semantic actions. This construction should then be
-					generated into the static parser driver template.
-					
-	Parameters:		void
-	
-	Returns:		code					The code to be inserted into the
-											static parser driver framework.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
+
 function print_actions()
 {
 	var code = new String();
@@ -1060,20 +915,6 @@ function print_actions()
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		get_eof_symbol_id()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Returns the value of the eof-symbol.
-					
-	Parameters:	
-		
-	Returns:		eof_id					The id of the EOF-symbol.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function get_eof_symbol_id()
 {
 	var eof_id = -1;
@@ -1095,59 +936,16 @@ function get_eof_symbol_id()
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		get_error_symbol_id()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Returns the value of the error-symbol.
-					
-	Parameters:	
-		
-	Returns:		length					The length of the symbol array.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function get_error_symbol_id()
 {
 	return states.length + 1;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		get_whitespace_symbol_id()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Returns the ID of the whitespace-symbol.
-					
-	Parameters:	
-		
-	Returns:		whitespace				The id of the whitespace-symbol.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function get_whitespace_symbol_id()
 {
 	return whitespace_token;
 }
 
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	tabgen.js
-Author:	Jan Max Meyer
-Usage:	LALR(1) closure and table construction
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
-// --- Utility functions: I think there is no documentation necessary ;) ---
 function create_state()
 {
 	var state = new STATE();
@@ -1239,27 +1037,6 @@ function get_undone_state()
 	return -1;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		find_symbol()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Searches for a symbol using its label and kind.
-					
-	Parameters:		label				The label of the symbol.
-					kind				Type of the symbol. This can be
-										SYM_NONTERM or SYM_TERM
-					special				Specialized symbols 
-
-	Returns:		The index of the desired object in the symbol table,
-					-1 if the symbol was not found.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
-	16.11.2007	Jan Max Meyer	Allow to find eof_character
-	19.11.2008	Jan Max Meyer	Special character checking
------------------------------------------------------------------------------ */
 function find_symbol( label, kind, special )
 {
 	if( !special )
@@ -1278,32 +1055,6 @@ function find_symbol( label, kind, special )
 	return -1;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		create_symbol()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Creates a new symbol (if necessary) and appends it to the
-					global symbol array. If the symbol does already exist, the
-					instance of that symbol is returned only.
-					
-	Parameters:		label				The label of the symbol. In case of
-										kind == SYM_NONTERM, the label is the
-										name of the right-hand side, else it
-										is the regular expression for the
-										terminal symbol.
-					kind				Type of the symbol. This can be
-										SYM_NONTERM or SYM_TERM
-					special				Specialized symbols 
-	
-	Returns:		The particular object of type SYMBOL.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
-	16.11.2007	Jan Max Meyer	Bugfix: EOF-character is a special case!
-	19.11.2008	Jan Max Meyer	Special character checking
------------------------------------------------------------------------------ */
 function create_symbol( label, kind, special )
 {
 	var exists;
@@ -1339,24 +1090,6 @@ function create_symbol( label, kind, special )
 	return sym.id;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		item_set_equal()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Checks if two item sets contain the same items. The items
-					may only differ in their lookahead.
-					
-	Parameters:		set1					Set to be compared with set2.
-					set2					Set to be compared with set1.
-	
-	Returns:		true					If equal,
-					false					else.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function item_set_equal( set1, set2 )
 {
 	var i, j, cnt = 0;
@@ -1384,20 +1117,6 @@ function item_set_equal( set1, set2 )
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		close_items()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			
-					
-	Parameters:		
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function close_items( seed, closure )
 {
 	var i, j, k;
@@ -1440,36 +1159,6 @@ function close_items( seed, closure )
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		lalr1_closure()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Implements the LALR(1) closure algorithm. A short overview:
-	
-					1. Closing a closure_set of ITEM() objects from a given
-					   kernel seed (this includes the kernel seed itself!)
-					2. Moving all epsilon items to the current state's epsilon
-					   set.
-					3. Moving all symbols with the same symbol right to the
-					   dot to a partition set.
-					4. Check if there is already a state with the same items
-					   as there are in the partition. If so, union the look-
-					   aheads, else, create a new state and set the partition
-					   as kernel seed.
-					5. If the (probably new state) was not closed yet, perform
-					   some table creation: If there is a terminal to the
-					   right of the dot, do a shift on the action table, else
-					   do a goto on the goto table. Reductions are performed
-					   later, when all states are closed.
-					
-	Parameters:		s				Id of the state that should be closed.
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function lalr1_closure( s )
 {
 	var closure = new Array(), nclosure, partition;
@@ -1631,32 +1320,6 @@ function lalr1_closure( s )
 	states[s].closed = true;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		do_reductions()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Inserts reduce-cells into the action table. A reduction
-					does always occur for items with the dot to the far right
-					of the production and to items with no production (epsilon
-					items).
-					The reductions are done on the corresponding lookahead
-					symbols. If a shift-reduce conflict appears, the function
-					will always behave in favor of the shift.
-					
-					Reduce-reduce conflicts are reported immediatelly, and need
-					to be solved.
-					
-	Parameters:		item_set				The item set to work on.
-					s						The index of the state where the
-											reductions take effect.
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function do_reductions( item_set, s )
 {
 	var i, j, ex, act, output_warning;
@@ -1756,32 +1419,6 @@ function do_reductions( item_set, s )
 	}
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		lalr1_parse_table()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Entry function to perform table generation. If all states
-					of the parsing state machine are constructed, all reduce
-					operations are inserted in the particular positions of the
-					action table.
-					
-					If there is a Shift-reduce conflict, the shift takes the
-					higher precedence. Reduce-reduce conflics are resolved by
-					choosing the first defined production.
-					
-	Parameters:		debug					Toggle debug trace output; This
-											should only be switched on when
-											JS/CC is executed in a web environ-
-											ment, because HTML-code will be
-											printed.
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function lalr1_parse_table( debug )
 {
 	var i, j, k, item, s, p;
@@ -1822,38 +1459,6 @@ function lalr1_parse_table( debug )
 }
 
 
-
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	util.js
-Author:	Jan Max Meyer
-Usage:	Utility functions used by several modules
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		union()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Unions the content of two arrays.
-					
-	Parameters:		dest_array				The destination array.
-					src_array				The source array. Elements that are
-											not in dest_array but in src_array
-											are copied to dest_array.
-	
-	Returns:		The destination array, the union of both input arrays.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function union( dest_array, src_array )
 {
 	var i, j;
@@ -1872,23 +1477,6 @@ function union( dest_array, src_array )
 	return dest_array;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		reset_all()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Resets all global variables. reset_all() should be called
-					each time a new grammar is compiled.
-					
-	Parameters:		mode			Exec-mode; This can be either
-									JSCC_EXEC_CONSOLE or JSCC_EXEC_WEB
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function reset_all( mode )
 {
 	var p;
@@ -1937,20 +1525,6 @@ function reset_all( mode )
 	code_foot = new String();
 }
 
-
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	bitset.js
-Author:	Jan Max Meyer
-Usage:	Bitset functionalities implemented in JavaScript.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
 //I think there is no documentation required on these tiny functions...
 function bitset_create( size )
 {
@@ -1994,36 +1568,7 @@ function bitset_count( bitset )
 			
 	return cnt;
 }
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
 
-File:	integrity.js
-Author:	Jan Max Meyer
-Usage:	Checks the integrity of the grammar by performing several tests.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		undef()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Checks if there are undefined non-terminals.
-					Prints an error message for each undefined non-terminal
-					that appears on a right-hand side.
-					
-	Parameters:		void
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function undef()
 {
 	var i;
@@ -2036,21 +1581,6 @@ function undef()
 	}
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		unreachable()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Checks if there are unreachable productions.
-					
-	Parameters:		void
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function unreachable()
 {
 	var		stack		= new Array();
@@ -2106,21 +1636,6 @@ function unreachable()
 }
 
 
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		check_empty_states()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Checks if there are LALR(1) states that have no lookaheads
-					(no shifts or reduces) within their state row.
-					
-	Parameters:		void
-	
-	Returns:		void
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function check_empty_states()
 {
 	var i;
@@ -2129,18 +1644,6 @@ function check_empty_states()
 			_error( "No lookaheads in state " + i + 
 						", watch for endless list definitions" );
 }
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	lexdfa.js
-Author:	Jan Max Meyer
-Usage:	Deterministic finite automation construction and minimization.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
 
 //Utility functions; I think there is no documentation required about them.
 
@@ -2218,27 +1721,6 @@ function execute_nfa( machine, str )
 	return last_accept;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		move()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Performs a move operation on a given input character from a
-					set of NFA states.
-					
-	Parameters:		state_set				The set of epsilon-closure states
-											on which base the move should be
-											performed.
-					machine					The NFA state machine.
-					ch						A character code to be moved on.
-	
-	Returns:		If there is a possible move, a new set of NFA-states is
-					returned, else the returned array has a length of 0.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function move( state_set, machine, ch )
 {
 	var hits	= new Array();
@@ -2256,26 +1738,6 @@ function move( state_set, machine, ch )
 	return hits;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		epsilon_closure()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Performs an epsilon closure from a set of NFA states.
-					
-	Parameters:		state_set				The set of states on which base
-											the closure is started.
-											The whole epsilon closure will be
-											appended to this parameter, so this
-											parameter acts as input/output value.
-					machine					The NFA state machine.
-	
-	Returns:		An array of accepting states, if available.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function epsilon_closure( state_set, machine )
 {
 	var 	stack	= new Array();
@@ -2325,25 +1787,6 @@ function epsilon_closure( state_set, machine )
 	return accept.sort();
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		create_subset()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Constructs a deterministic finite automata (DFA) from a non-
-					deterministic finite automata, by using the subset construc-
-					tion algorithm.
-					
-	Parameters:		nfa_states				The NFA-state machine on which base
-											the DFA will be constructed.
-
-	Returns:		An array of DFA-objects forming the new DFA-state machine.
-					This machine is not minimized here.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function create_subset( nfa_states )
 {
 	var dfa_states = new Array();
@@ -2408,24 +1851,6 @@ function create_subset( nfa_states )
 	return dfa_states;
 }
 
-
-/* -FUNCTION--------------------------------------------------------------------
-	Function:		create_subset()
-	
-	Author:			Jan Max Meyer
-	
-	Usage:			Minimizes a DFA, by grouping equivalent states together.
-					These groups form the new, minimized dfa-states.
-					
-	Parameters:		dfa_states				The DFA-state machine on which base
-											the minimized DFA is constructed.
-
-	Returns:		An array of DFA-objects forming the minimized DFA-state
-					machine.
-  
-	~~~ CHANGES & NOTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Date:		Author:			Note:
------------------------------------------------------------------------------ */
 function minimize_dfa( dfa_states )
 {
 	var		groups			= new Array();
@@ -2542,19 +1967,6 @@ function minimize_dfa( dfa_states )
 	return min_dfa_states;
 }
 
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	lexdbg.js
-Author:	Jan Max Meyer
-Usage:	NFA/DFA state machines debugging/dumping functions
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
 function print_nfa( ta )
 {
 	_print( "Pos\tType\t\tfollow\t\tfollow2\t\taccept" );
@@ -2616,24 +2028,6 @@ function print_dfa( dfa_states )
 		_print( str );
 	}
 }
-/*
-	Default driver template for JS/CC generated parsers for Mozilla/Rhino
-	
-	WARNING: Do not use for parsers that should run as browser-based JavaScript!
-			 Use driver_web.js_ instead!
-	
-	Features:
-	- Parser trace messages
-	- Step-by-step parsing
-	- Integrated panic-mode error recovery
-	- Pseudo-graphical parse tree generation
-	
-	Written 2007 by Jan Max Meyer, J.M.K S.F. Software Technologies
-        Modified 2007 from driver.js_ to support Mozilla/Rhino
-           by Louis P.Santillan <lpsantil@gmail.com>
-	
-	This is in the public domain.
-*/
 
 var		first_lhs;
 
@@ -3685,25 +3079,6 @@ function parse_grammar( str, filename )
 }
 	
 
-/*
-	Default driver template for JS/CC generated parsers for Mozilla/Rhino
-	
-	WARNING: Do not use for parsers that should run as browser-based JavaScript!
-			 Use driver_web.js_ instead!
-	
-	Features:
-	- Parser trace messages
-	- Step-by-step parsing
-	- Integrated panic-mode error recovery
-	- Pseudo-graphical parse tree generation
-	
-	Written 2007 by Jan Max Meyer, J.M.K S.F. Software Technologies
-        Modified 2007 from driver.js_ to support Mozilla/Rhino
-           by Louis P.Santillan <lpsantil@gmail.com>
-	
-	This is in the public domain.
-*/
-
 var first_nfa;
 var last_nfa;
 var created_nfas; //Must always be initialized by compile_regex()...
@@ -4591,33 +3966,6 @@ function compile_regex( str, accept, case_insensitive )
 }
 
 
-//TESTING AREA ;)
-//compile_regex( "[A-Z][A-Z0-9]*", 0 );
-//compile_regex( "ab|c", 1 );
-//compile_regex( "[0-9]+", 1 );
-//print_nfa();
-//var d = create_subset( nfa_states );
-//print_dfa( d );
-//d = minimize_dfa( d );
-//print_dfa( d );
-
-
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-Contibutions by Louis P. Santillan <lpsantil@gmail.com>
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	io_rhino.js
-Author:	Louis P. Santillan
-		Jan Max Meyer
-Usage:	Console-based wrapper function set for JS/CC to be executed
-		via Mozilla/Rhino.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
-
 var DEFAULT_DRIVER = "driver_node.js_";
 
 function _error( msg )
@@ -4679,18 +4027,6 @@ function get_arguments()
   return args;
 }
 
-/* -MODULE----------------------------------------------------------------------
-JS/CC: A LALR(1) Parser Generator written in JavaScript
-Copyright (C) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer
-http://www.jmksf.com ++ jscc<-AT->jmksf.com
-
-File:	main.js
-Author:	Jan Max Meyer
-Usage:	Console-based program entry for the JS/CC parser generator.
-
-You may use, modify and distribute this software under the terms and conditions
-of the Artistic License. Please see ARTISTIC for more information.
------------------------------------------------------------------------------ */
 
 function version()
 {

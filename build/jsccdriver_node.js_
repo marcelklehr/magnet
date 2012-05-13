@@ -8,9 +8,6 @@
 	- Pseudo-graphical parse tree generation
 	
 	Written 2007 by Jan Max Meyer, J.M.K S.F. Software Technologies
-        Modified 2012 from driver_rhino.js_ to support Node.js
-        by Marcel Klehr <mklehr@gmx.net>
-	
 	This is in the public domain.
 */
 ##HEADER##
