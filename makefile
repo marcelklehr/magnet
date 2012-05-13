@@ -1,6 +1,5 @@
 VER = $(shell cat version.txt)
 DATE = $(shell git log -1 --pretty=format:%ad)
-CHLOG = $(shell git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s")
 
 SRC_DIR = lib
 BUILD_DIR = build
@@ -34,7 +33,7 @@ CLI_FILES = ${SRC_DIR}/cli/_header.template.js \
 COMPILER_FILES = ${BUILD_DIR}/jscc.js \
 		${BUILD_DIR}/jsccdriver_node.js_
 
-all : changelog ferrite.js stdlib.js cli.js package.json
+all : ferrite.js stdlib.js cli.js package.json CHANGELOG.TXT
 
 ferrite.js : ${FERRITE_FILES}
 	@@echo "Building interpreter."
@@ -66,8 +65,9 @@ package.json : version.txt ${BUILD_DIR}/package.template.json
 	@@echo "Creating package file."
 	@@sed "s/@VERSION/${VER}/" ${BUILD_DIR}/package.template.json > package.json
 
-changelog : 
-	@@echo "${CHLOG}" > CHANGELOG.TXT
+CHANGELOG.TXT : 
+	@@echo "Creating changelog."
+	git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s" > CHANGELOG.TXT
   
 debug : 
 	@@echo "Compiling parser from grammar in debug mode."
