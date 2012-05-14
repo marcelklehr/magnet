@@ -5,6 +5,7 @@ SRC_DIR = lib
 JSCC_DIR = jscc
 BUILD_DIR = build
 TEMP_DIR = temp
+OUT_DIR = .
 
 FERRITE_TYPES = ${SRC_DIR}/ferrite/type_nil.js \
 		${SRC_DIR}/ferrite/type_object.js \
@@ -34,50 +35,53 @@ CLI_FILES = ${SRC_DIR}/cli/_header.template.js \
 COMPILER_FILES = ${JSCC_DIR}/jscc.js \
 		${JSCC_DIR}/jsccdriver_node.js_
 
-all : ferrite.js stdlib.js cli.js package.json CHANGELOG.TXT
+all : ${OUT_DIR} ${OUT_DIR}/ferrite.js ${OUT_DIR}/stdlib.js ${OUT_DIR}/cli.js ${OUT_DIR}/package.json ${OUT_DIR}/CHANGELOG.TXT
 
-ferrite.js : ${FERRITE_FILES}
+${OUT_DIR} :
+	@@mkdir -p ${OUT_DIR}
+
+${OUT_DIR}/ferrite.js : ${FERRITE_FILES}
 	@@echo "Building interpreter."
 	@@cat ${FERRITE_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
 		sed 's/@DATE/'"${DATE}"'/' \
-		> ferrite.js
+		> ${OUT_DIR}/ferrite.js
 
-stdlib.js : ${STDLIB_FILES}
+${OUT_DIR}/stdlib.js : ${STDLIB_FILES}
 	@@echo "Building standart library."
 	@@cat ${STDLIB_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
 		sed 's/@DATE/'"${DATE}"'/' \
-		> stdlib.js
+		> ${OUT_DIR}/stdlib.js
 
-cli.js : ${CLI_FILES}
+${OUT_DIR}/cli.js : ${CLI_FILES}
 	@@echo "Building command line tool."
 	@@cat ${CLI_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
 		sed 's/@DATE/'"${DATE}"'/' \
-		> cli.js
+		> ${OUT_DIR}/cli.js
 
 ${TEMP_DIR}/parser.js : ${SRC_DIR}/grammar.par ${COMPILER_FILES}
 	@@echo "Compiling parser from grammar."
 	@@mkdir -p ${TEMP_DIR}
 	@@node ${JSCC_DIR}/jscc.js -t ${JSCC_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
 
-package.json : version.txt ${BUILD_DIR}/package.template.json
+${OUT_DIR}/package.json : version.txt ${BUILD_DIR}/package.template.json
 	@@echo "Creating package file."
-	@@sed "s/@VERSION/${VER}/" ${BUILD_DIR}/package.template.json > package.json
+	@@sed "s/@VERSION/${VER}/" ${BUILD_DIR}/package.template.json > ${OUT_DIR}/package.json
 
-CHANGELOG.TXT : 
+${OUT_DIR}/CHANGELOG.TXT : 
 	@@echo "Creating changelog."
-	@@git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s" > CHANGELOG.TXT
+	@@git log --no-merges --date=short --format=format:"%ad: %an <%aE>: %s" > ${OUT_DIR}/CHANGELOG.TXT
   
 debug : 
 	@@echo "Compiling parser from grammar in debug mode."
 	@@mkdir -p ${TEMP_DIR}
-	@@node ${BUILD_DIR}/jscc.js -v -w -t ${BUILD_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
+	@@node ${JSCC_DIR}/jscc.js -v -w -t ${JSCC_DIR}/jsccdriver_node.js_ -o ${TEMP_DIR}/parser.js ${SRC_DIR}/grammar.par
 
 tidy :
 	@@echo "Cleaning temp directory."
 	@@rm -f ${TEMP_DIR}/parser.js
 clean : tidy
 	@@echo "Cleaning up previous build."
-	@@rm -f ferrite.js stdlib.js cli.js package.json ${TEMP_DIR}/parser.js CHANGELOG.TXT
+	@@rm -f ${OUT_DIR}/ferrite.js ${OUT_DIR}/stdlib.js ${OUT_DIR}/cli.js ${OUT_DIR}/package.json ${TEMP_DIR}/parser.js ${OUT_DIR}/CHANGELOG.TXT
