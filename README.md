@@ -17,11 +17,11 @@ Submit any suggestions, questions or bugs to the [Issue Tracker](http://github.c
 That's it. Now try runnig `node cli sample/test.mg`.
 
 ## License
-Copyright (c) 2012 by Marcel Klehr
+Copyright (c) 2012 by Marcel Klehr  
 MIT License (see `LICENSE`)
 
 This software uses a slightly modified version of:
 
-JS/CC - A LALR(1) Parser Generator written in JavaScript (contained in `/jscc`)
-Copyright (c) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer <jscc<-AT->jmksf.com>, http://www.jmksf.com
-JS/CC is licensed under the terms of the 3-clause BSD License (see `jscc/jscc.js` for more information).
+JS/CC - A LALR(1) Parser Generator written in JavaScript (contained in `/jscc`)  
+Copyright (c) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer <jscc<-AT->jmksf.com>, http://www.jmksf.com  
+*JS/CC is licensed under the terms of the 3-clause BSD License (see `jscc/jscc.js` for more information).*
