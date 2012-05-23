@@ -5,20 +5,23 @@
 /~~~ TERMINALS ~~~/
 
 !	" |\r|\n|\t|\/\*(\/)?([^\/]|[^\*]\/)*\*\/|\/\/([^\r\n])*(\n|\r)+"
+  ;
 
-	'backtrace'
-	'cry'
-	'debug'
-	'return'
-	'if'
-	'else'
+	"backtrace"
+	"cry"
+	"debug"
+	"return"
+	"if"
+	"else"
+  '(\r|\n)+'			LineBreak
   '\.'
   '\('
 	'\)'
 	'{'
 	'}'
+	'\['
+	'\]'
 	';'
-	'(\r|\n)+'			LineBreak
 	','
 	':'
   '!'
@@ -35,7 +38,7 @@
 	'\-'
 	'/'
 	'\*'
-	'#'
+  '#'
 	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
 	'[0-9]+'                                Integer		[* %match = parseInt(%match); *]
 	'[0-9]+\.[0-9]+'                         Float		[* %match = parseFloat(%match); *]
@@ -98,6 +101,7 @@ value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | Boolean		  [* %% = new Node( NODE_BOOL, %1 ); *]
             | String			[* %% = new Node( NODE_STR, %1 ); *]
             | variable    [* %% = new Node( NODE_VAR, %1); *]
+            | object-def
             | function-def
             | function-call
             | '(' expression ')'		[* %% = new Node(NODE_EXPR, %2); *]
@@ -129,6 +133,15 @@ parameters: Identifier parameters		[* %% = new Node( NODE_PARAM, %1, [%2] ); *]
 
 code:       action code 			[* %% = new Node( NODE_ACT, %1, [%2] ); *]
             | action			[* %% = new Node( NODE_ACT, %1 ); *]
+            ;
+
+object-def: "[" properties "]"	[* %% = new Node( NODE_OBJ, %2); *]
+            | '[' ']'						[* %% = new Node( NODE_OBJ); *]
+            ;
+
+properties: ident ":" expression "," properties					[* %% = new Node( NODE_PROPDEF, %1, [%3, %5] ); *]
+            | ident ':' expression LineBreak properties	[* %% = new Node( NODE_PROPDEF, %1, [%3, %5] ); *]
+            | ident ":" expression											[* %% = new Node( NODE_PROPDEF, %1, [%3]); *]
             ;
 
 control-struct: if-else-statement
