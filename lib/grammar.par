@@ -17,6 +17,8 @@
 	'\)'
 	'{'
 	'}'
+	'<'
+	'>'
 	';'
 	'(\r|\n)+'			LineBreak
 	','
@@ -100,6 +102,7 @@ value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | variable    [* %% = new Node( NODE_VAR, %1); *]
             | function-def
             | function-call
+            | list-def
             | '(' expression ')'		[* %% = new Node(NODE_EXPR, %2); *]
             ;
 
@@ -138,7 +141,9 @@ if-else-statement: if expression function-def else if-else-statement  [* %% = ne
                    | if expression function-def else function-def         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3, %5]) *]
                    | if expression function-def                         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3]) *]
                    ;
-          
+list-def: '<' arguments '>'	[* %% = new Node( NODE_LIST, %2); *]
+            | '<' '>'						[* %% = new Node( NODE_LIST); *]
+            ;
 
 [*
 
