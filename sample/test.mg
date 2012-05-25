@@ -100,7 +100,7 @@ if i == 10 {
 /* should display '5 times' five times */
 5.times({cry '5 times'})
 
-'Hello'.each({char: cry char})
+'Hello'.split().each({char: cry char})
 
 /* should output first "Hello" and then "G'Day" */
 fork = 'Hello'.fork()
