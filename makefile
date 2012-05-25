@@ -11,6 +11,7 @@ FERRITE_TYPES = ${SRC_DIR}/ferrite/type_nil.js \
 		${SRC_DIR}/ferrite/type_object.js \
 		${SRC_DIR}/ferrite/type_boolean.js \
 		${SRC_DIR}/ferrite/type_string.js \
+		${SRC_DIR}/ferrite/type_list.js \
 		${SRC_DIR}/ferrite/type_integer.js \
 		${SRC_DIR}/ferrite/type_float.js \
 		${SRC_DIR}/ferrite/type_function.js
