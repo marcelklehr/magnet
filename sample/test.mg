@@ -98,7 +98,7 @@ if i == 10 {
  */
 
 /* should display '5 times' five times */
-5.each({cry '5 times'})
+5.times({cry '5 times'})
 
 'Hello'.each({char: cry char})
 
