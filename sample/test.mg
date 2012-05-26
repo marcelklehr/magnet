@@ -6,7 +6,7 @@
 /**
  * Our print implementation
  */
-print =  { val :
+print = { val ::
   cry val
 };
 
@@ -32,7 +32,7 @@ cry a
  */
  
  
-print2 = { val:
+print2 = { val ::
   print(val)
 }
 
@@ -76,7 +76,7 @@ if true {
   cry 'Native booleans ala true work.'
 }
 
-
+debug
 /**
  * Lists
  */
@@ -94,11 +94,12 @@ if list.#(0) == 1 && list.#(8) == 9 {
  * Our own while implementation
  */
 
-while = { expr body :
+while = { expr body ::
   if expr() {
     body()
     while(expr, body)
   }
+  return
 }
 
 i = 0
@@ -117,7 +118,7 @@ if i == 10 {
 
 5.times({cry '5 times'}) // should display '5 times' five times
 
-'Hello'.split().each({char: cry char})
+'Hello'.split().each({char :: cry char})
 
 
 fork = 'Hello'.fork()
