@@ -67,9 +67,17 @@ if i == 42 {
 }
 
 if i != 42 {
-  puts 'will not be called'
+  puts 'IF-ELSE does NOT work!?'
 } else {
   puts 'IF-ELSE clauses work.'
+}
+
+if i != 42 {
+  puts 'will not be called'
+} else if i != 42 {
+  puts 'ELSEIF does NOT work!?'
+} else {
+  puts 'ELSEIF works.'
 }
 
 if true {
