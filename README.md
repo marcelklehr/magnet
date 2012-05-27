@@ -1,25 +1,32 @@
 #  Magnet
-### An interpreted programming language
+### An <del>interpreted</del> awesome programming language
 
-Magnet is written in JavaScript for [node.js](http://nodejs.org/). It consists of three main things:
+Magnet is an object-oriented programming language, that is prototype-based to the point of real types being absent in favor of duck types.  
+E.g. every object providing a `read` method that returns a readable, is considered "readable" (meaning it can represent a string). Since this causes a recursion, there must be some "primal" readable to end that: Such primal readable is also known as a String Object in Magnet.
 
- * The interpreter, called Ferrite
- * The standart library (which currently does not, yet, exist -- simple programs work, though)
- * The command line interface for Ferrite
+Furthermore, Magnet is syntax driven. This means: Everything that can be done to reduce code, retain simplicity and to amaze the developer, IS done!
+
+## Example
+```
+5 * {puts '5 times'}
+```
+Displays '5 times' five times.
+
+```
+'Hello':split.each({char :: puts char})
+```
+Displays 'Hello', with each character on a new line.
+
+Learn more about Magnet in [the docs](http://github.com/marcelklehr/magnet/wiki/docs).
 
 ## Install
 1. Make sure [node.js](http://nodejs.org/) is installed.
-1. [Download](https://github.com/marcelklehr/magnet/zipball/master) Magnet.
-2. Run `make`.
+2. Download Magnet: [stable](https://github.com/marcelklehr/magnet/zipball/master) | [bleeding edge (recommended)](https://github.com/marcelklehr/magnet/zipball/develop)
+3. Run `make`.
 
 That's it. Now try  
 `> magnet sample/test.mg` on Windows  
 `$ ./magnet sample/test.mg` on UNIX
-
-## Contributing
-Every contribution is greatly appreciated! You will just need [node.js](http://nodejs.org/), [git](http://git-scm.com) and a [github account](https://github.com/signup/free). [Fork](http://help.github.com/fork-a-repo/) this repo, [clone](http://git-scm.com/docs/git-clone) your fork, create a [feature branch](https://www.google.com/search?q=git+feature+branches), [commit](http://git-scm.com/docs/git-commit), [push](http://git-scm.com/docs/git-push) and submit a [pull request](http://help.github.com/send-pull-requests/).
-
-Submit any suggestions, questions or bugs to the [Issue Tracker](http://github.com/marcelklehr/magnet/issues). Also, have a look at the [wiki](http://github.com/marcelklehr/magnet/wiki).
 
 ## License
 Copyright (c) 2012 by Marcel Klehr  
