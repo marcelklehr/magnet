@@ -7,24 +7,24 @@
  * Our print implementation
  */
 print = { val ::
-  cry val
+  puts val
 };
 
 /**
  * Strings
  */
-cry 'Strings work! \r\n'
-cry "Both string literals work! \r\n"
+puts 'Strings work! \r\n'
+puts "Both string literals work! \r\n"
 
 
 /**
  * Assigniments
  */
 str = 'Variable assigning works.'
-cry str
+puts str
 
 a = b = 'Assignment chaining works'
-cry a
+puts a
 
 
 /**
@@ -51,7 +51,7 @@ print( func() );
   text = 'Closures and Call chaining works.'
   return { 
     return {
-      cry text
+      puts text
     }
   } 
 }()()()
@@ -63,20 +63,20 @@ print( func() );
 
 i = 42
 if i == 42 {
-  cry 'IF clauses work.'
+  puts 'IF clauses work.'
 }
 
 if i != 42 {
-  cry 'will not be called'
+  puts 'will not be called'
 } else {
-  cry 'IF-ELSE clauses work.'
+  puts 'IF-ELSE clauses work.'
 }
 
 if true {
-  cry 'Native booleans ala true work.'
+  puts 'Native booleans ala true work.'
 }
 
-debug
+
 /**
  * Lists
  */
@@ -87,7 +87,7 @@ poped = list.pop()
 list.unshift(shifted)
 list.push(poped)
 if list.#(0) == 1 && list.#(8) == 9 {
-  cry 'lists work'
+  puts 'lists work'
 }
 
 /**
@@ -108,7 +108,7 @@ while({i < 10}, {
 });
 
 if i == 10 {
-  cry 'While implementation works.'
+  puts 'While implementation works.'
 }
 
 /**
@@ -116,23 +116,23 @@ if i == 10 {
  */
 
 
-5.times({cry '5 times'}) // should display '5 times' five times
+5.times({puts '5 times'}) // should display '5 times' five times
 
-'Hello'.split().each({char :: cry char})
+'Hello'.split().each({char :: puts char})
 
 
 fork = 'Hello'.fork()
 fork.#("+") = {"G'Day"}
-cry fork          // should output "Hello"
-cry fork+" World" // should output "G'Day"
+puts fork          // should output "Hello"
+puts fork+" World" // should output "G'Day"
 
-cry "5+5="+(5+5)
-cry "5*5="+(5*5)
-cry "5/5="+(5/5)
-cry "(5+5)/5="+((5+5)/5)
+puts "5+5="+(5+5)
+puts "5*5="+(5*5)
+puts "5/5="+(5/5)
+puts "(5+5)/5="+((5+5)/5)
 
 test = 5+" times"
-cry '5+" times" = '+test
+puts '5+" times" = '+test
 
 /* crazycccc should be a regular function */
 crazy = {'hello'}.copy()
