@@ -45,7 +45,8 @@
 	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
 	'[0-9]+'                                Integer		[* %match = parseInt(%match); *]
 	'[0-9]+\.[0-9]+'                         Float		[* %match = parseFloat(%match); *]
-	'true|false'                            Boolean   [* %match = (%match == 'true'); *]
+	"true|false"                            Boolean   [* %match = (%match == 'true'); *]
+  "nil"                                    Nil      [* %match = new Node( NODE_NIL ); *]
   '[A-Za-z_][A-Za-z0-9_]*'	             Identifier
 	;
 
@@ -103,6 +104,7 @@ value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | Float				[* %% = new Node( NODE_FLOAT, %1 ); *]
             | Boolean		  [* %% = new Node( NODE_BOOL, %1 ); *]
             | String			[* %% = new Node( NODE_STR, %1 ); *]
+            | Nil
             | variable    [* %% = new Node( NODE_VAR, %1); *]
             | object-def
             | function-def
