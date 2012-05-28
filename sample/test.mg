@@ -1,23 +1,42 @@
-print =  { val :
-  cry val
+/* COMMENTS WORK?
+ *** 
+/* /* ///*/ /**/
+
+
+/**
+ * Our print implementation
+ */
+print = { val ::
+  puts val
 };
 
-cry 'Strings work! \r\n'
-cry "Both string literals work! \r\n"
+/**
+ * Strings
+ */
+puts 'Strings work! \r\n'
+puts "Both string literals work! \r\n"
 
 
+/**
+ * Assigniments
+ */
 str = 'Variable assigning works.'
-cry str
+puts str
+
+a = b = 'Assignment chaining works'
+puts a
 
 
-
-print2 = { val:
+/**
+ * Scopes and functions
+ */
+ 
+ 
+print2 = { val ::
   print(val)
 }
 
 print2('Scope inheritance works.')
-
-
 
 
 func = {
@@ -28,48 +47,67 @@ func = {
 print( func() );
 
 
-
-
 { 
   text = 'Closures and Call chaining works.'
   return { 
     return {
-      cry text
+      puts text
     }
   } 
 }()()()
 
 
-
-
-a = b = 'Assignment chaining works'
-print(a)
+/**
+ * Control structs
+ */
 
 i = 42
 if i == 42 {
-  cry 'IF clauses work.'
+  puts 'IF clauses work.'
 }
 
 if i != 42 {
-  cry 'will not be called'
+  puts 'IF-ELSE does NOT work!?'
 } else {
-  cry 'IF-ELSE clauses work.'
+  puts 'IF-ELSE clauses work.'
 }
 
-
-
-
+if i != 42 {
+  puts 'will not be called'
+} else if i != 42 {
+  puts 'ELSEIF does NOT work!?'
+} else {
+  puts 'ELSEIF works.'
+}
 
 if true {
-  cry 'Native booleans ala true work.'
+  puts 'Native booleans ala true work.'
 }
 
 
-while = { expr body :
+/**
+ * Lists
+ */
+
+list = 1,2,3,4,5,6,7,8,9
+shifted = list.shift()
+poped = list.pop()
+list.unshift(shifted)
+list.push(poped)
+if list.#(0) == 1 && list.#(8) == 9 {
+  puts 'lists work'
+}
+
+/**
+ * Our own while implementation
+ */
+
+while = { expr body ::
   if expr() {
     body()
     while(expr, body)
   }
+  return
 }
 
 i = 0
@@ -78,21 +116,33 @@ while({i < 10}, {
 });
 
 if i == 10 {
-  cry 'While implementation works.'
+  puts 'While implementation works.'
 }
 
-cry '--Advanced Features--'
+/**
+ * Advanced features
+ */
 
-5.each({cry '5 times'})
 
-'Hello'.each({char: cry char})
+5.times({puts '5 times'}) // should display '5 times' five times
+
+'Hello'.split().each({char :: puts char})
+
 
 fork = 'Hello'.fork()
 fork.#("+") = {"G'Day"}
-cry fork
-cry fork+" World"
+puts fork          // should output "Hello"
+puts fork+" World" // should output "G'Day"
 
+puts "5+5="+(5+5)
+puts "5*5="+(5*5)
+puts "5/5="+(5/5)
+puts "(5+5)/5="+((5+5)/5)
 
+test = 5+" times"
+puts '5+" times" = '+test
+
+/* crazycccc should be a regular function */
 crazy = {'hello'}.copy()
 crazyccccc = crazy.call.call.call.call.call
 debug

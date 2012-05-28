@@ -1,27 +1,38 @@
 #  Magnet
-### An interpreted programming language
+### An <del>interpreted</del> awesome programming language
 
-The Magnet language is written in JavaScript for node.js. It consist of three main things:
+Magnet is an object-oriented programming language, that is prototype-based to the point of real types being absent in favor of duck types.  
+E.g. every object providing a `read` method that returns a readable, is considered "readable" (meaning it can represent a string). Since this causes a recursion, there must be some "primal" readable to end that: Such primal readable is also known as a String Object in Magnet.
 
- * The interpreter, called `Ferrite`
- * The standart library (which currently does not, yet, exist -- simple programs work, though)
- * The command line interface for Ferrite
+Furthermore, Magnet is syntax driven. This means: Everything that can be done to reduce code, retain simplicity and to amaze the developer, IS done!
 
-The API is changing very rapidly at the moment, so don't expect anything to last. I'm curretnly figuring out what feels best for me.
-Submit any suggestions, questions or bugs to the [Issue Tracker](http://github.com/marcelklehr/magnet/issues), though.
+## Example
+```
+5 * {puts '5 times'}
+```
+Displays '5 times' five times.
+
+```
+'Hello':split.each({char :: puts char})
+```
+Displays 'Hello', with each character on a new line.
+
+Learn more about Magnet in [the docs](http://github.com/marcelklehr/magnet/wiki/docs).
 
 ## Install
-1. [Download](https://github.com/marcelklehr/magnet/zipball/master) it.
-2. Run `make`
+1. Make sure [node.js](http://nodejs.org/) is installed.
+2. Download Magnet: [stable](https://github.com/marcelklehr/magnet/zipball/master) | [bleeding edge (recommended)](https://github.com/marcelklehr/magnet/zipball/develop)
+3. Run `make`.
 
-That's it. Now try runnig `node cli sample/test.mg`. Also, have a look at the [wiki](http://github.com/marcelklehr/magnet/wiki).
+That's it. Now try  
+`> magnet sample/test.mg` on Windows  
+`$ ./magnet sample/test.mg` on UNIX
 
 ## License
 Copyright (c) 2012 by Marcel Klehr  
 MIT License (see `LICENSE`)
 
-This software uses a slightly modified version of:
-
-JS/CC - A LALR(1) Parser Generator written in JavaScript (contained in `/jscc`)  
+### Third-party software
+This software uses a slightly modified version of JS/CC - A LALR(1) Parser Generator written in JavaScript (contained in `/jscc`)  
 Copyright (c) 2007, 2008 by J.M.K S.F. Software Technologies, Jan Max Meyer jscc!AT!jmksf.com, http://www.jmksf.com  
-*JS/CC is licensed under the terms of the 3-clause BSD License (see `jscc/jscc.js` for more information).*
+3-clause BSD License (see `jscc/jscc.js` for more information)
