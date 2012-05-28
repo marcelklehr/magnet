@@ -1,7 +1,14 @@
-{ "name" : "Magnet",
-  "description": "Interpreted scripting language",
-  "version": "@VERSION",
-  "main" : "./cli.js",
+{ "name" : "magnet",
+  "description": "A duck-typed, object-oriented, syntax-driven and potentially awesome programming language.",
+  "keywords" : ["language", "programming language", "syntax sugar", "duck-typed", "interpreter", "parser", "object-oriented"],
+  "repository" : { "type" : "git", "url" : "http://github.com/marcelklehr/magnet.git" },
   "author": "Marcel Klehr <mklehr@gmx.net>",
-  "engines": { "node": ">= 0.6.0" }
+  "licenses": ["MIT"],
+  "bugs": { "url" : "http://github.com/marcelklehr/magnet/issues" },
+  "engines": { "node": ">= 0.6.0" },
+  "preferGlobal": true,
+  "version": "@VERSION",
+  "files": ["ferrite.js", "stdlib.js", "CHANGELOG.TXT", "LICENSE", "lib", "bin", "jscc", "build", "makefile"],
+  "bin": "./bin/magnet",
+  "main" : "./ferrite.js"
 }
