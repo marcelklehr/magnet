@@ -8,7 +8,7 @@
   ;
 
 	"backtrace"
-	"puts"
+	"puts"                                            [* %match = %offset; *]
 	"debug"
 	"return"
 	"if"
@@ -58,7 +58,7 @@ script:     script action 		[* opcode.push( %2 ); *]
             |
             ;
 
-action:     puts expression		[* %% = new Node( NODE_OP, OP_PUTS, [%2] ); *]
+action:     puts expression		[* %% = new Node( NODE_OP, OP_PUTS, [%2], %1 ); *]
             | debug			[* %% = new Node( NODE_OP, OP_DEBUG ); *]
             | backtrace			[* %% = new Node( NODE_OP, OP_TRACE ); *]
             | return expression	[* %% = new Node( NODE_OP, OP_RET, [%2]); *]
