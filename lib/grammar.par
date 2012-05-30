@@ -41,7 +41,7 @@
 	'/'                                               [* %match = %offset; *]
 	'\*'                                              [* %match = %offset; *]
   '#'                                               [* %match = %offset; *]
-	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
+	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = { string: %match.substr( 1, %match.length - 2 ).replace('\\'+%match[0], %match[0]), offset: %offset}; *]
 	'[0-9]+'                                Integer		[* %match = parseInt(%match); *]
 	'[0-9]+\.[0-9]+'                         Float		[* %match = parseFloat(%match); *]
 	"true|false"                            Boolean   [* %match = (%match == 'true'); *]
@@ -102,7 +102,7 @@ NegExp:     '-' value			[* %% = new Node( NODE_OP, OP_NEG, [%2] ); *]
 value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | Float				[* %% = new Node( NODE_FLOAT, %1 ); *]
             | Boolean		  [* %% = new Node( NODE_BOOL, %1 ); *]
-            | String			[* %% = new Node( NODE_STR, %1 ); *]
+            | String			[* %% = new Node( NODE_STR, %1.string, [], %1.offset ); *]
             | Nil
             | function-call
             | variable    [* %% = new Node( NODE_VAR, %1); *]
