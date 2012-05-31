@@ -1,5 +1,5 @@
 VER = $(shell cat version.txt)
-DATE = $(shell git log -1 --pretty=format:%ad)
+COMMIT = $(shell git log -1 --pretty=format:%H)
 
 SRC_DIR = lib
 JSCC_DIR = jscc
@@ -46,14 +46,14 @@ ${OUT_DIR}/ferrite.js : ${FERRITE_FILES}
 	@@echo "Building interpreter."
 	@@cat ${FERRITE_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
-		sed 's/@DATE/'"${DATE}"'/' \
+		sed 's/@COMMIT/'"${COMMIT}"'/' \
 		> ${OUT_DIR}/ferrite.js
 
 ${OUT_DIR}/stdlib.js : ${STDLIB_FILES}
 	@@echo "Building standart library."
 	@@cat ${STDLIB_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
-		sed 's/@DATE/'"${DATE}"'/' \
+		sed 's/@COMMIT/'"${COMMIT}"'/' \
 		> ${OUT_DIR}/stdlib.js
 
 ${OUT_DIR}/${BIN_DIR}/magnet : ${CLI_FILES}
@@ -61,7 +61,7 @@ ${OUT_DIR}/${BIN_DIR}/magnet : ${CLI_FILES}
 	@@mkdir -p ${BIN_DIR}
 	@@cat ${CLI_FILES} | \
 		sed "s/@VERSION/${VER}/" | \
-		sed 's/@DATE/'"${DATE}"'/' \
+		sed 's/@COMMIT/'"${COMMIT}"'/' \
 		> ${OUT_DIR}/${BIN_DIR}/magnet
 
 ${TEMP_DIR}/parser.js : ${SRC_DIR}/grammar.par ${COMPILER_FILES}
