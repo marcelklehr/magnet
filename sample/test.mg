@@ -123,6 +123,10 @@ if i == 10 {
  * Advanced features
  */
 
+// test Timer lib
+Timer.wait(10, {
+  puts "Timer works."
+})
 
 5.times({puts '5 times'}) // should display '5 times' five times
 
