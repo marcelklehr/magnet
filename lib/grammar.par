@@ -8,45 +8,45 @@
   ;
 
 	"backtrace"
-	"puts"
+	"puts"                                            [* %match = %offset; *]
 	"debug"
 	"return"
 	"if"
 	"else"
   '(\r|\n)+'			LineBreak
-  '\.'
-  '\('
+  '\.'                                              [* %match = %offset; *]
+  '\('                                              [* %match = %offset; *]
 	'\)'
 	'{'
 	'}'
 	'\['
 	'\]'
-	'<'
-	'>'
+	'<>'
 	';'
 	','
-	':'
+	':'                                               [* %match = %offset; *]
   '::'
-  '!'
-  '&&'
-  '\|\|'
+  '!'                                               [* %match = %offset; *]
+  '&&'                                              [* %match = %offset; *]
+  '\|\|'                                            [* %match = %offset; *]
 	'='
-	'=='
-	'!='
-	'<='
-	'>='
-	'>'
-	'<'
-	'\+'
-	'\-'
-	'/'
-	'\*'
-  '#'
-	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = %match.substr( 1, %match.length - 2 ); %match = %match.replace( /''/g, "\'" ); *]
+	'=='                                              [* %match = %offset; *]
+	'!='                                              [* %match = %offset; *]
+	'<='                                              [* %match = %offset; *]
+	'>='                                              [* %match = %offset; *]
+	'>'                                               [* %match = %offset; *]
+	'<'                                               [* %match = %offset; *]
+	'\+'                                              [* %match = %offset; *]
+	'\-'                                              [* %match = %offset; *]
+	'/'                                               [* %match = %offset; *]
+	'\*'                                              [* %match = %offset; *]
+  '#'                                               [* %match = %offset; *]
+	'(\'([^\']|\\\')*\')|("([^"]|\\")*")'		String		[* %match = { string: %match.substr( 1, %match.length - 2 ).replace('\\'+%match[0], %match[0]), offset: %offset}; *]
 	'[0-9]+'                                Integer		[* %match = parseInt(%match); *]
 	'[0-9]+\.[0-9]+'                         Float		[* %match = parseFloat(%match); *]
-	'true|false'                            Boolean   [* %match = (%match == 'true'); *]
-  '[A-Za-z_][A-Za-z0-9_]*'	             Identifier
+	"true|false"                            Boolean   [* %match = (%match == 'true'); *]
+  "nil"                                    Nil      [* %match = new Node( NODE_NIL ); *]
+  '[A-Za-z_][A-Za-z0-9_]*'	             Identifier [* %match = {offset: %offset, ident: %match}; *]
 	;
 
 ##
@@ -58,7 +58,7 @@ script:     script action 		[* opcode.push( %2 ); *]
             |
             ;
 
-action:     puts expression		[* %% = new Node( NODE_OP, OP_PUTS, [%2] ); *]
+action:     puts expression		[* %% = new Node( NODE_OP, OP_PUTS, [%2], %1 ); *]
             | debug			[* %% = new Node( NODE_OP, OP_DEBUG ); *]
             | backtrace			[* %% = new Node( NODE_OP, OP_TRACE ); *]
             | return expression	[* %% = new Node( NODE_OP, OP_RET, [%2]); *]
@@ -72,26 +72,26 @@ action:     puts expression		[* %% = new Node( NODE_OP, OP_PUTS, [%2] ); *]
 assignment: variable '=' expression	[* %% = new Node( NODE_OP, OP_ASSIGN, [%1, %3] ); *]
             ;
 
-expression: expression '&&' expression [* %% = new Node( NODE_OP, OP_AND, [%1, %3] ); *]
-            | expression '||' expression [* %% = new Node( NODE_OP, OP_OR, [%1, %3] ); *]
-            | '!' expression            [* %% = new Node( NODE_OP, OP_OR, [%2] ); *]
-            | expression '==' AddSubExp	[* %% = new Node( NODE_OP, OP_EQU, [%1, %3] ); *]
-            | expression '<' AddSubExp	[* %% = new Node( NODE_OP, OP_LOT, [%1, %3] ); *]
-            | expression '>' AddSubExp	[* %% = new Node( NODE_OP, OP_GRT, [%1, %3] ); *]
-            | expression '<=' AddSubExp	[* %% = new Node( NODE_OP, OP_LOE, [%1, %3] ); *]
-            | expression '>=' AddSubExp	[* %% = new Node( NODE_OP, OP_GRE, [%1, %3] ); *]
-            | expression '!=' AddSubExp	[* %% = new Node( NODE_OP, OP_NEQ, [%1, %3] ); *]
+expression: expression '&&' expression [* %% = new Node( NODE_OP, OP_AND, [%1, %3], %2 ); *]
+            | expression '||' expression [* %% = new Node( NODE_OP, OP_OR, [%1, %3], %2 ); *]
+            | '!' expression            [* %% = new Node( NODE_OP, OP_OR, [%2], %1 ); *]
+            | expression '==' AddSubExp	[* %% = new Node( NODE_OP, OP_EQU, [%1, %3], %2 ); *]
+            | expression '<' AddSubExp	[* %% = new Node( NODE_OP, OP_LOT, [%1, %3], %2 ); *]
+            | expression '>' AddSubExp	[* %% = new Node( NODE_OP, OP_GRT, [%1, %3], %2 ); *]
+            | expression '<=' AddSubExp	[* %% = new Node( NODE_OP, OP_LOE, [%1, %3], %2 ); *]
+            | expression '>=' AddSubExp	[* %% = new Node( NODE_OP, OP_GRE, [%1, %3], %2 ); *]
+            | expression '!=' AddSubExp	[* %% = new Node( NODE_OP, OP_NEQ, [%1, %3], %2 ); *]
             | AddSubExp
             | assignment
             ;
 
-AddSubExp:  AddSubExp '-' MulDivExp            [* %% = new Node( NODE_OP, OP_SUB, [%1, %3] ); *]
-            | AddSubExp '+' MulDivExp          [* %% = new Node( NODE_OP, OP_ADD, [%1, %3] ); *]
+AddSubExp:  AddSubExp '-' MulDivExp            [* %% = new Node( NODE_OP, OP_SUB, [%1, %3], %2 ); *]
+            | AddSubExp '+' MulDivExp          [* %% = new Node( NODE_OP, OP_ADD, [%1, %3], %2 ); *]
             | MulDivExp
             ;
 				
-MulDivExp:  MulDivExp '*' NegExp		[* %% = new Node( NODE_OP, OP_MUL, [%1, %3] ); *]
-            | MulDivExp '/' NegExp		[* %% = new Node( NODE_OP, OP_DIV, [%1, %3] ); *]
+MulDivExp:  MulDivExp '*' NegExp		[* %% = new Node( NODE_OP, OP_MUL, [%1, %3], %2 ); *]
+            | MulDivExp '/' NegExp		[* %% = new Node( NODE_OP, OP_DIV, [%1, %3], %2 ); *]
             | NegExp
             ;
 				
@@ -102,28 +102,29 @@ NegExp:     '-' value			[* %% = new Node( NODE_OP, OP_NEG, [%2] ); *]
 value:      Integer				[* %% = new Node( NODE_INT, %1 ); *]
             | Float				[* %% = new Node( NODE_FLOAT, %1 ); *]
             | Boolean		  [* %% = new Node( NODE_BOOL, %1 ); *]
-            | String			[* %% = new Node( NODE_STR, %1 ); *]
+            | String			[* %% = new Node( NODE_STR, %1.string, [], %1.offset ); *]
+            | Nil
+            | function-call
             | variable    [* %% = new Node( NODE_VAR, %1); *]
             | object-def
             | function-def
-            | function-call
             | list-def
             | '(' expression ')'		[* %% = new Node(NODE_EXPR, %2); *]
             ;
 
 
-variable:   value '.' ident      [* %% = new Node( NODE_PROP, %1, [%3] ); *]
-            | ident              [* %% = new Node( NODE_PROP, null, [%1] ); *]
+variable:   value '.' ident      [* %% = new Node( NODE_PROP, %1, [%3], /* offset: */ %2); *]
+            | ident              [* %% = new Node( NODE_PROP, null, [%1], /* offset: */ %1.offset ); *]
             ;
 
-ident:      Identifier               [* %% = new Node( NODE_IDENT, %1 ); *]
-            | '#' '(' expression ')' [* %% = new Node( NODE_IDENT, new Node(NODE_EXPR, %3)); *]
+ident:      Identifier               [* %% = new Node( NODE_IDENT, %1.ident, [], /* offset: */ %1.offset ); *]
+            | '#' '(' expression ')' [* %% = new Node( NODE_IDENT, new Node(NODE_EXPR, %3), [], /* offset: */ %1); *]
             ;
 
-function-call: expression "(" arguments ")"	[* %% = new Node( NODE_CALL, %1, [%3] ); *]
-               | expression "(" ")"		[* %% = new Node( NODE_CALL, %1 ); *]
-               | expression ":" ident [* %% = new Node(NODE_CALL, new Node( NODE_VAR, new Node(NODE_PROP, %1, [%3] ))); *]
-               | ":" expression [* %% = new Node(NODE_CALL, %2 ); *]
+function-call: value "(" arguments ")"	[* %% = new Node( NODE_CALL, %1, [%3], /* offset: */ %2 ); *]
+               | value "(" ")"		[* %% = new Node( NODE_CALL, %1, [], /* offset: */ %2 ); *]
+               | value ":" ident [* %% = new Node(NODE_CALL, new Node( NODE_VAR, new Node(NODE_PROP, %1, [%3], /* offset: */%2 )), [], /* offset: */ %2); *]
+               | ":" value [* %% = new Node(NODE_CALL, %2, [], /* offset: */ %1 ); *]
                ;
 arguments:  expression "," arguments		[* %% = new Node( NODE_ARG, %1, [%3] ); *]
             | expression			[* %% = new Node( NODE_ARG, %1); *]
@@ -133,8 +134,8 @@ function-def: "{" parameters "::" code "}"	[* %% = new Node( NODE_FUNC, %4, [%2]
               | "{" code "}"			[* %% = new Node( NODE_FUNC, %2 ); *]
               ;
 		 
-parameters: Identifier parameters		[* %% = new Node( NODE_PARAM, %1, [%2] ); *]
-            | Identifier			      [* %% = new Node( NODE_PARAM, %1 ); *]
+parameters: Identifier parameters		[* %% = new Node( NODE_PARAM, %1.ident, [%2], %1.offset ); *]
+            | Identifier			      [* %% = new Node( NODE_PARAM, %1.ident,  [], %1.offset ); *]
             ;
 
 code:       action code 			[* %% = new Node( NODE_ACT, %1, [%2] ); *]
@@ -158,7 +159,7 @@ if-else-statement: if expression function-def else if-else-statement  [* %% = ne
                    | if expression function-def                         [* %% = new Node(NODE_OP, OP_IFELSE, [%2, %3]) *]
                    ;
 list-def: arguments	[* %% = new Node( NODE_LIST, %1); *]
-            | '<' '>'						[* %% = new Node( NODE_LIST); *]
+            | '<>'						[* %% = new Node( NODE_LIST); *]
             ;
 
 [*

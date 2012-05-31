@@ -20,13 +20,16 @@ Displays 'Hello', with each character on a new line.
 Learn more about Magnet in [the docs](http://github.com/marcelklehr/magnet/wiki/docs).
 
 ## Install
-1. Make sure [node.js](http://nodejs.org/) is installed.
-2. Download Magnet: [stable](https://github.com/marcelklehr/magnet/zipball/master) | [bleeding edge (recommended)](https://github.com/marcelklehr/magnet/zipball/develop)
-3. Run `make`.
+If you have [npm](http://npmjs.org/), just do: `npm install -g magnet`
 
-That's it. Now try  
-`> magnet sample/test.mg` on Windows  
-`$ ./magnet sample/test.mg` on UNIX
+That's it! Now try `magnet test.mg`, after copying the [test file](https://github.com/marcelklehr/magnet/blob/develop/sample/test.mg) to `test.mg`.
+
+### Installing from source
+1. Download Magnet ([stable](https://github.com/marcelklehr/magnet/zipball/master) or [bleeding edge (recommended)](https://github.com/marcelklehr/magnet/zipball/develop)), or grab the repo using `git clone git://github.com/marcelklehr/magnet.git`
+2. Run `make`.
+
+Now try `$ ./bin/magnet sample/test.mg`  
+or `> node bin/magnet sample/test.mg` on windows
 
 ## License
 Copyright (c) 2012 by Marcel Klehr  

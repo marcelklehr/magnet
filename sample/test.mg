@@ -95,7 +95,7 @@ poped = list.pop()
 list.unshift(shifted)
 list.push(poped)
 if list.#(0) == 1 && list.#(8) == 9 {
-  puts 'lists work'
+  puts 'Lists work.'
 }
 
 /**
@@ -123,24 +123,22 @@ if i == 10 {
  * Advanced features
  */
 
+// test Timer lib
+Timer.wait(10, {
+  puts "Timer works."
+})
 
 5.times({puts '5 times'}) // should display '5 times' five times
 
 'Hello'.split().each({char :: puts char})
 
+puts "5+5=#{ 5+5 }"
+puts "5*5=#{ 5*5 }"
+puts "5/5=#{ 5/5 }"
+puts "(5+5)/5=#{ (5+5)/5 }"
 
-fork = 'Hello'.fork()
-fork.#("+") = {"G'Day"}
-puts fork          // should output "Hello"
-puts fork+" World" // should output "G'Day"
-
-puts "5+5="+(5+5)
-puts "5*5="+(5*5)
-puts "5/5="+(5/5)
-puts "(5+5)/5="+((5+5)/5)
-
-test = 5+" times"
-puts '5+" times" = '+test
+test = "#{5} times"
+puts '"\#{5} times" = #{ test }'
 
 /* crazycccc should be a regular function */
 crazy = {'hello'}.copy()
